@@ -121,8 +121,10 @@ def load_pipelines(config=utils.file_config):
 
 def preprocess_data(data_frame, config=utils.file_config):
     feature_pipeline, labels_pipeline = load_pipelines(config=config)
-    X = feature_pipeline.transform(data_frame)
-    y = labels_pipeline.transform(data_frame)
+    X = feature_pipeline.transform(data_frame).toarray()
+
+    nobs = X.shape[0]
+    y = labels_pipeline.transform(data_frame).reshape((nobs))
     return X, y
 
 def load_train_data(config=utils.file_config):
